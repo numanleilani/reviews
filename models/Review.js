@@ -15,11 +15,15 @@ let ReviewSchema = new mongoose.Schema({
     required: [true, "Rating is Required!"],
   },
   subcategory: {
-    type:mongoose.Schema.Types.ObjectId,
-    ref: "subcategory",
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "SubCategory",
     required: [true, "Sub Category is Required"],
   },
-  user: { type: Schema.Types.ObjectId, ref: "User" },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: [true, "User is Required"],
+  },
   createdAt: {
     type: Date,
     default: Date.now(),

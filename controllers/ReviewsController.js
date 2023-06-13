@@ -13,8 +13,8 @@ module.exports = {
           title,
           details,
           rating, 
-          user:mongoose.Types.ObjectId(req.body.user),
-          subcategory:mongoose.Types.ObjectId(req.body.subcategory),
+          user: mongoose.Types.ObjectId(req.body.user),
+          subcategory: mongoose.Types.ObjectId(req.body.subcategory),
         } 
 
       const review = await Reviews.create(data);
@@ -34,7 +34,20 @@ module.exports = {
   get_reviews: async (req, res) => {
     try {
 
-      let features = new ApiFeatures(Reviews.find(), req.query).filter().Paginate().sort().LimitFields();
+      let features = new ApiFeatures(Reviews.find()
+      .populate({
+        path: 'subcategory',
+        model: 'SubCategory',
+        populate: {
+          path: 'Category',
+          model: 'Category',
+        }
+      })
+      .populate({
+        path: 'user',
+        model: 'User',
+      })
+      , req.query).filter().Paginate().sort().LimitFields();
       // Execute the Query
       const reviews = await features.query;
         res.status(200).json({
@@ -70,14 +83,14 @@ module.exports = {
       const {title, user, subcategory, details, rating} = req.body;
       let data = {
         title,
-        user: user && user,
-        subcategory: subcategory && mongoose.Types.ObjectId(subcategory),
-        details:details && details,
-        rating:rating && rating
+        user: new mongoose.Types.ObjectId(user),
+        subcategory: new mongoose.Types.ObjectId(subcategory),
+        details,
+        rating
         }
       const review = await Reviews.findByIdAndUpdate(req.params.id, data, {
         new: true,
-        runValidators: true
+        // runValidators: true
       });
         res.status(200).json({
           status:'success', 
