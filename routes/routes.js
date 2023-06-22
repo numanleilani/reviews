@@ -14,7 +14,7 @@ router.get("/", (req,res) =>{
 
   //! *** Category Routes ***!//
   router.route("/category")
-  .get(ProtectRoute.Protect, ProtectRoute.RestrictTo('admin'), CategoryController.get_categories) /*** Get all Category ***/
+  .get(CategoryController.get_categories) /*** Get all Category ***/
   .post(upload.single('image'), CategoryController.add_category) /*** Add New Category ***/
 router.route("/category/:id")
   .get(CategoryController.edit_category) /*** Get a Single Category ***/

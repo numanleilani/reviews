@@ -20,7 +20,7 @@ module.exports = {
         contacts, 
         image: image_upload.secure_url,
         image_id: image_upload.public_id,
-        Category: mongoose.Types.ObjectId(req.body.Category),
+        Category: mongoose.Types.ObjectId(Category),
       } 
       const subcategory = await SubCategory.create(data);
       res.status(200).json({ 
@@ -48,7 +48,11 @@ module.exports = {
       console.log(JSON.parse(queryStr));
 
 
-      let query = SubCategory.find(JSON.parse(queryStr)); 
+      let query = SubCategory.find(JSON.parse(queryStr)).populate({
+        path: "Category",
+        model: "Category",
+        select: "title"
+      }); 
       
       // Sorting
       if(req.query.sort) {
