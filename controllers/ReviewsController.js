@@ -13,8 +13,7 @@ module.exports = {
           title,
           details,
           rating, 
-          user: mongoose.Types.ObjectId(req.body.user),
-          subcategory: mongoose.Types.ObjectId(req.body.subcategory),
+          user: mongoose.Types.ObjectId(req.body.user), 
         } 
 
       const review = await Reviews.create(data);
@@ -35,14 +34,7 @@ module.exports = {
     try {
 
       let features = new ApiFeatures(Reviews.find()
-      .populate({
-        path: 'subcategory',
-        model: 'SubCategory',
-        populate: {
-          path: 'Category',
-          model: 'Category',
-        }
-      })
+      
       .populate({
         path: 'user',
         model: 'User',
@@ -80,11 +72,10 @@ module.exports = {
 
   update_review: async(req, res) => {
     try {
-      const {title, user, subcategory, details, rating} = req.body;
+      const {title, user,   details, rating} = req.body;
       let data = {
         title,
-        user: new mongoose.Types.ObjectId(user),
-        subcategory: new mongoose.Types.ObjectId(subcategory),
+        user: new mongoose.Types.ObjectId(user), 
         details,
         rating
         }

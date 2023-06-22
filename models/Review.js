@@ -14,11 +14,6 @@ let ReviewSchema = new mongoose.Schema({
     enum: [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5],
     required: [true, "Rating is Required!"],
   },
-  subcategory: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "SubCategory",
-    required: [true, "Sub Category is Required"],
-  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
